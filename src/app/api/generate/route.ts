@@ -72,6 +72,9 @@ ${buildPhasePromptsPrompt(specs)}`
     if (message.includes("401") || message.includes("authentication")) {
       return Response.json({ error: "Invalid API key" }, { status: 401 })
     }
+    if (message.includes("credit balance") || message.includes("billing")) {
+      return Response.json({ error: "Insufficient API credits — please add credits at console.anthropic.com" }, { status: 402 })
+    }
     if (message.includes("429") || message.includes("rate")) {
       return Response.json({ error: "Rate limited — please wait a moment and try again" }, { status: 429 })
     }

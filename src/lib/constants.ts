@@ -168,12 +168,13 @@ export const QA_STEPS: QAStep[] = [
 ]
 
 export const MODEL_OPTIONS = [
-  { value: "claude-sonnet-4-5-20250514", label: "Claude Sonnet 4.5 (Recommended)" },
-  { value: "claude-opus-4-20250514", label: "Claude Opus 4" },
-  { value: "claude-haiku-3-5-20241022", label: "Claude Haiku 3.5 (Fastest)" },
+  { value: "claude-sonnet-4-5-20250929", label: "Claude Sonnet 4.5 (Recommended)" },
+  { value: "claude-opus-4-6", label: "Claude Opus 4.6 (Most Capable)" },
+  { value: "claude-opus-4-5-20251101", label: "Claude Opus 4.5" },
+  { value: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5 (Fastest)" },
 ]
 
-export const DEFAULT_MODEL = "claude-sonnet-4-5-20250514"
+export const DEFAULT_MODEL = "claude-sonnet-4-5-20250929"
 
 export const FILE_SEPARATOR = "---FILE:"
 export const FILE_SEPARATOR_END = "---"
