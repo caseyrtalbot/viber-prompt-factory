@@ -9,17 +9,16 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Eye, EyeOff, Check, X, Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 export function ApiKeyForm() {
   const { apiKey, setApiKey, model, setModel, clearApiKey, isLoaded } = useApiKey()
   const [showKey, setShowKey] = useState(false)
   const [testStatus, setTestStatus] = useState<"idle" | "testing" | "success" | "error">("idle")
-  const [testError, setTestError] = useState("")
 
   const testConnection = async () => {
     if (!apiKey) return
     setTestStatus("testing")
-    setTestError("")
 
     try {
       const res = await fetch("/api/extract-specs", {
@@ -38,10 +37,11 @@ export function ApiKeyForm() {
       }
 
       setTestStatus("success")
+      toast.success("Connection successful")
       setTimeout(() => setTestStatus("idle"), 3000)
     } catch (err) {
       setTestStatus("error")
-      setTestError(err instanceof Error ? err.message : "Connection failed")
+      toast.error(err instanceof Error ? err.message : "Connection failed")
     }
   }
 
@@ -102,17 +102,11 @@ export function ApiKeyForm() {
             {testStatus === "error" && <X className="mr-2 h-4 w-4" />}
             Test Connection
           </Button>
-          <Button variant="outline" onClick={clearApiKey} disabled={!apiKey}>
+          <Button variant="outline" onClick={() => { clearApiKey(); toast("API key cleared") }} disabled={!apiKey}>
             Clear Key
           </Button>
         </div>
 
-        {testStatus === "error" && testError && (
-          <p className="text-sm text-destructive">{testError}</p>
-        )}
-        {testStatus === "success" && (
-          <p className="text-sm text-green-600 dark:text-green-400">Connection successful!</p>
-        )}
       </CardContent>
     </Card>
   )

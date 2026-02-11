@@ -53,6 +53,9 @@ export async function POST(req: NextRequest) {
     if (message.includes("401") || message.includes("authentication")) {
       return Response.json({ error: "Invalid API key" }, { status: 401 })
     }
+    if (message.includes("429") || message.includes("rate")) {
+      return Response.json({ error: "Rate limited — please wait a moment and try again" }, { status: 429 })
+    }
     return Response.json({ error: message }, { status: 500 })
   }
 }

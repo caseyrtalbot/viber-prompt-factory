@@ -53,7 +53,21 @@ export function useGeneration() {
       let fullText = ""
 
       while (true) {
-        const { done, value } = await reader.read()
+        let result: ReadableStreamReadResult<Uint8Array>
+        try {
+          result = await reader.read()
+        } catch (err) {
+          if ((err as Error).name === "AbortError") return
+          setState((prev) => ({
+            ...prev,
+            status: "error",
+            error: "Connection lost during generation. Partial results may be available.",
+            files: prev.files.filter((f) => f.content.length > 0),
+          }))
+          return
+        }
+
+        const { done, value } = result
         if (done) break
 
         const chunk = decoder.decode(value, { stream: true })

@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Copy, Download, Check, ChevronDown, ChevronUp } from "lucide-react"
+import { toast } from "sonner"
 
 interface GeneratedFileCardProps {
   file: GeneratedFile
@@ -17,9 +18,14 @@ export function GeneratedFileCard({ file }: GeneratedFileCardProps) {
   const [expanded, setExpanded] = useState(false)
 
   const handleCopy = async () => {
-    await copyToClipboard(file.content)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    try {
+      await copyToClipboard(file.content)
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+      toast.success("Copied to clipboard")
+    } catch {
+      toast.error("Failed to copy")
+    }
   }
 
   const lineCount = file.content.split("\n").length

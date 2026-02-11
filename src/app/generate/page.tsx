@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useProjectSpecs } from "@/hooks/use-project-specs"
 import { useApiKey } from "@/hooks/use-api-key"
 import { useGeneration } from "@/hooks/use-generation"
@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Loader2, Sparkles, RotateCcw, AlertCircle } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 export default function GeneratePage() {
   const [inputMode, setInputMode] = useState<InputMode>("interactive")
@@ -25,9 +26,9 @@ export default function GeneratePage() {
   const { apiKey, model, isLoaded } = useApiKey()
   const { status, files, streamingContent, error, generate, abort, reset } = useGeneration()
 
-  const handleGenerate = () => {
+  const handleGenerate = useCallback(() => {
     generate(specs, outputMode, apiKey, model)
-  }
+  }, [generate, specs, outputMode, apiKey, model])
 
   // Cmd+Enter shortcut
   useEffect(() => {
@@ -38,7 +39,16 @@ export default function GeneratePage() {
     }
     window.addEventListener("keydown", handler)
     return () => window.removeEventListener("keydown", handler)
-  })
+  }, [showReview, apiKey, status, handleGenerate])
+
+  // Toast on generation complete/error
+  useEffect(() => {
+    if (status === "complete") {
+      toast.success("Generation complete")
+    } else if (status === "error" && error) {
+      toast.error(error)
+    }
+  }, [status, error])
 
   const handleReset = () => {
     reset()

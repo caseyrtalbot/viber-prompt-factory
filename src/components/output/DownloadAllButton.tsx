@@ -4,6 +4,7 @@ import type { GeneratedFile } from "@/lib/types"
 import { downloadAllAsZip } from "@/lib/download"
 import { Button } from "@/components/ui/button"
 import { Download } from "lucide-react"
+import { toast } from "sonner"
 
 interface DownloadAllButtonProps {
   files: GeneratedFile[]
@@ -17,7 +18,14 @@ export function DownloadAllButton({ files, projectName }: DownloadAllButtonProps
     <Button
       variant="outline"
       size="sm"
-      onClick={() => downloadAllAsZip(files, projectName)}
+      onClick={async () => {
+        try {
+          await downloadAllAsZip(files, projectName)
+          toast.success("Downloaded zip")
+        } catch {
+          toast.error("Download failed")
+        }
+      }}
     >
       <Download className="mr-2 h-3.5 w-3.5" />
       Download All (.zip)
