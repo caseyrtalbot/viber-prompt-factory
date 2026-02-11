@@ -31,40 +31,45 @@ export function FreeTextInput({ onComplete }: FreeTextInputProps) {
 
   return (
     <div className="space-y-4">
-      <div className="space-y-2">
-        <Label htmlFor="freetext">Paste your project specs, PRD, or description</Label>
+      <div className="space-y-1.5">
+        <Label
+          htmlFor="freetext"
+          className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase"
+        >
+          Paste your project specs, PRD, or description
+        </Label>
         <Textarea
           id="freetext"
           value={freeText}
           onChange={(e) => setFreeText(e.target.value)}
           placeholder="Paste your project requirements, PRD, feature specs, or just describe what you want to build in as much detail as possible..."
           rows={12}
-          className="font-mono text-sm"
+          className="font-mono text-xs"
         />
-        <p className="text-xs text-muted-foreground">
+        <p className="font-mono text-[10px] text-muted-foreground tracking-wide">
           The more detail you provide, the better the generated prompts will be.
         </p>
       </div>
 
       {!apiKey && (
-        <p className="text-sm text-destructive">
+        <p className="font-mono text-xs text-destructive">
           Please configure your API key in Settings first.
         </p>
       )}
 
       {error && (
-        <p className="text-sm text-destructive">{error}</p>
+        <p className="font-mono text-xs text-destructive">{error}</p>
       )}
 
       <Button
         onClick={handleExtract}
         disabled={!freeText.trim() || !apiKey || isExtracting}
-        className="w-full"
+        className="w-full font-mono text-[11px] font-bold tracking-wider uppercase"
       >
         {isExtracting ? (
-          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />
         ) : (
-          <Sparkles className="mr-2 h-4 w-4" />
+          <Sparkles className="mr-2 h-3.5 w-3.5" />
         )}
         {isExtracting ? "Extracting specs..." : "Extract & Review Specs"}
       </Button>

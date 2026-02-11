@@ -15,17 +15,17 @@ export function InputModeSelector({ mode, onModeChange }: InputModeSelectorProps
       <Button
         variant={mode === "interactive" ? "default" : "outline"}
         onClick={() => onModeChange("interactive")}
-        className="flex-1"
+        className="flex-1 font-mono text-[11px] font-bold tracking-wider uppercase"
       >
-        <MessageSquare className="mr-2 h-4 w-4" />
+        <MessageSquare className="mr-2 h-3.5 w-3.5" />
         Interactive Q&A
       </Button>
       <Button
         variant={mode === "freetext" ? "default" : "outline"}
         onClick={() => onModeChange("freetext")}
-        className="flex-1"
+        className="flex-1 font-mono text-[11px] font-bold tracking-wider uppercase"
       >
-        <FileText className="mr-2 h-4 w-4" />
+        <FileText className="mr-2 h-3.5 w-3.5" />
         Paste & Extract
       </Button>
     </div>

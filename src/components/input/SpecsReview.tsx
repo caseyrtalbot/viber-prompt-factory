@@ -39,12 +39,15 @@ export function SpecsReview() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Review & Edit Specs</CardTitle>
+        <CardTitle className="text-base">Review & Edit Specs</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {fields.map((field) => (
-          <div key={field.key} className="space-y-1">
-            <Label htmlFor={`review-${field.key}`} className="text-xs font-medium text-muted-foreground uppercase tracking-wider">
+          <div key={field.key} className="space-y-1.5">
+            <Label
+              htmlFor={`review-${field.key}`}
+              className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase"
+            >
               {field.label}
             </Label>
             {field.type === "text" && (
@@ -52,7 +55,7 @@ export function SpecsReview() {
                 id={`review-${field.key}`}
                 value={(specs[field.key as keyof ProjectSpecs] as string) || ""}
                 onChange={(e) => handleFieldChange(field.key, e.target.value)}
-                className="h-8 text-sm"
+                className="h-8 font-mono text-xs"
               />
             )}
             {field.type === "textarea" && (
@@ -61,14 +64,14 @@ export function SpecsReview() {
                 value={(specs[field.key as keyof ProjectSpecs] as string) || ""}
                 onChange={(e) => handleFieldChange(field.key, e.target.value)}
                 rows={2}
-                className="text-sm"
+                className="font-mono text-xs"
               />
             )}
             {field.type === "features" && (
               <div className="space-y-2">
                 <div className="flex flex-wrap gap-1">
                   {specs.features.map((f, i) => (
-                    <Badge key={i} variant="secondary" className="text-xs">
+                    <Badge key={i} variant="secondary" className="font-mono text-[10px] tracking-wide uppercase">
                       {f}
                     </Badge>
                   ))}
@@ -78,7 +81,7 @@ export function SpecsReview() {
                   value={specs.features.join(", ")}
                   onChange={(e) => handleFieldChange("features", e.target.value)}
                   placeholder="Comma-separated features"
-                  className="h-8 text-sm"
+                  className="h-8 font-mono text-xs"
                 />
               </div>
             )}

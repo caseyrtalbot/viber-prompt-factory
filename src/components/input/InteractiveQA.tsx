@@ -40,28 +40,38 @@ export function InteractiveQA({ onComplete }: InteractiveQAProps) {
 
   return (
     <div className="space-y-4">
-      <Progress value={progress} className="h-2" />
+      <Progress value={progress} className="h-1" />
 
-      <div className="flex items-center justify-between text-sm text-muted-foreground">
-        <span>Step {currentStep + 1} of {QA_STEPS.length}</span>
-        <span>{step.title}</span>
+      <div className="flex items-center justify-between">
+        <span className="font-mono text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+          Step {String(currentStep + 1).padStart(2, "0")} of {String(QA_STEPS.length).padStart(2, "0")}
+        </span>
+        <span className="font-mono text-[11px] font-semibold tracking-wider text-muted-foreground uppercase">
+          {step.title}
+        </span>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>{step.title}</CardTitle>
-          <CardDescription>{step.description}</CardDescription>
+          <CardTitle className="text-base">{step.title}</CardTitle>
+          <CardDescription className="font-mono text-xs">{step.description}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {step.fields.map((field) => (
-            <div key={field.key} className="space-y-2">
-              <Label htmlFor={field.key}>{field.label}</Label>
+            <div key={field.key} className="space-y-1.5">
+              <Label
+                htmlFor={field.key}
+                className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase"
+              >
+                {field.label}
+              </Label>
               {field.type === "text" && (
                 <Input
                   id={field.key}
                   value={getFieldValue(field.key)}
                   onChange={(e) => handleFieldChange(field.key, e.target.value)}
                   placeholder={field.placeholder}
+                  className="font-mono text-xs"
                 />
               )}
               {field.type === "textarea" && (
@@ -71,6 +81,7 @@ export function InteractiveQA({ onComplete }: InteractiveQAProps) {
                   onChange={(e) => handleFieldChange(field.key, e.target.value)}
                   placeholder={field.placeholder}
                   rows={3}
+                  className="font-mono text-xs"
                 />
               )}
               {field.type === "select" && field.options && (
@@ -78,12 +89,12 @@ export function InteractiveQA({ onComplete }: InteractiveQAProps) {
                   value={getFieldValue(field.key)}
                   onValueChange={(v) => handleFieldChange(field.key, v)}
                 >
-                  <SelectTrigger id={field.key}>
+                  <SelectTrigger id={field.key} className="font-mono text-xs">
                     <SelectValue placeholder={`Select ${field.label.toLowerCase()}`} />
                   </SelectTrigger>
                   <SelectContent>
                     {field.options.map((opt) => (
-                      <SelectItem key={opt} value={opt}>
+                      <SelectItem key={opt} value={opt} className="font-mono text-xs">
                         {opt}
                       </SelectItem>
                     ))}
@@ -100,19 +111,26 @@ export function InteractiveQA({ onComplete }: InteractiveQAProps) {
           variant="outline"
           onClick={() => setCurrentStep((s) => s - 1)}
           disabled={currentStep === 0}
+          className="font-mono text-[11px] font-semibold tracking-wider uppercase"
         >
-          <ChevronLeft className="mr-1 h-4 w-4" />
+          <ChevronLeft className="mr-1 h-3.5 w-3.5" />
           Back
         </Button>
 
         {currentStep < QA_STEPS.length - 1 ? (
-          <Button onClick={() => setCurrentStep((s) => s + 1)}>
+          <Button
+            onClick={() => setCurrentStep((s) => s + 1)}
+            className="font-mono text-[11px] font-bold tracking-wider uppercase"
+          >
             Next
-            <ChevronRight className="ml-1 h-4 w-4" />
+            <ChevronRight className="ml-1 h-3.5 w-3.5" />
           </Button>
         ) : (
-          <Button onClick={onComplete}>
-            <Check className="mr-1 h-4 w-4" />
+          <Button
+            onClick={onComplete}
+            className="font-mono text-[11px] font-bold tracking-wider uppercase"
+          >
+            <Check className="mr-1 h-3.5 w-3.5" />
             Review Specs
           </Button>
         )}

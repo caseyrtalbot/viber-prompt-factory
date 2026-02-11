@@ -32,7 +32,11 @@ export function ResultsPanel({ files, projectName }: ResultsPanelProps) {
       <Tabs defaultValue={files[0].filename}>
         <TabsList className="w-full flex-wrap h-auto gap-1 p-1">
           {files.map((file) => (
-            <TabsTrigger key={file.filename} value={file.filename} className="text-xs font-mono">
+            <TabsTrigger
+              key={file.filename}
+              value={file.filename}
+              className="font-mono text-[10px] tracking-wider uppercase"
+            >
               {file.filename}
             </TabsTrigger>
           ))}

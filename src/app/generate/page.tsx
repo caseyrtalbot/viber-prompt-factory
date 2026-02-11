@@ -63,7 +63,7 @@ export default function GeneratePage() {
         {/* Input Panel */}
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-semibold mb-3">Project Specs</h2>
+            <h2 className="text-lg font-bold mb-3">Project Specs</h2>
             <InputModeSelector mode={inputMode} onModeChange={setInputMode} />
           </div>
 
@@ -80,6 +80,7 @@ export default function GeneratePage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowReview(false)}
+                className="font-mono text-[10px] font-semibold tracking-wider uppercase"
               >
                 Back to Input
               </Button>
@@ -90,7 +91,7 @@ export default function GeneratePage() {
         {/* Output Panel */}
         <div className="space-y-6">
           <div>
-            <h2 className="text-xl font-semibold mb-3">Output</h2>
+            <h2 className="text-lg font-bold mb-3">Output</h2>
             <OutputModeSelector mode={outputMode} onModeChange={setOutputMode} />
           </div>
 
@@ -99,9 +100,9 @@ export default function GeneratePage() {
               <CardContent className="flex items-center gap-3 py-4">
                 <AlertCircle className="h-5 w-5 text-destructive shrink-0" />
                 <div>
-                  <p className="text-sm font-medium">API key required</p>
-                  <p className="text-xs text-muted-foreground">
-                    <Link href="/settings" className="underline">Configure your API key</Link> to generate prompts.
+                  <p className="font-mono text-xs font-semibold">API key required</p>
+                  <p className="font-mono text-[10px] text-muted-foreground">
+                    <Link href="/settings" className="text-primary hover:underline">Configure your API key</Link> to generate prompts.
                   </p>
                 </div>
               </CardContent>
@@ -110,11 +111,15 @@ export default function GeneratePage() {
 
           {showReview && apiKey && status === "idle" && (
             <div className="space-y-2">
-              <Button onClick={handleGenerate} className="w-full" size="lg">
+              <Button
+                onClick={handleGenerate}
+                className="w-full font-mono text-[11px] font-bold tracking-wider uppercase"
+                size="lg"
+              >
                 <Sparkles className="mr-2 h-4 w-4" />
                 Generate Prompts
               </Button>
-              <p className="text-center text-xs text-muted-foreground">
+              <p className="text-center font-mono text-[10px] text-muted-foreground tracking-wide">
                 {navigator.platform?.includes("Mac") ? "Cmd" : "Ctrl"}+Enter
               </p>
             </div>
@@ -123,11 +128,16 @@ export default function GeneratePage() {
           {status === "generating" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Generating...
+                <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
+                  <Loader2 className="h-3.5 w-3.5 animate-spin" />
+                  <span className="tracking-wider uppercase">Generating...</span>
                 </div>
-                <Button variant="outline" size="sm" onClick={abort}>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={abort}
+                  className="font-mono text-[10px] font-semibold tracking-wider uppercase"
+                >
                   Cancel
                 </Button>
               </div>
@@ -138,11 +148,16 @@ export default function GeneratePage() {
           {status === "complete" && (
             <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <p className="text-sm text-muted-foreground">
+                <p className="font-mono text-xs text-muted-foreground tracking-wide">
                   Generated {files.length} file{files.length !== 1 ? "s" : ""}
                 </p>
-                <Button variant="outline" size="sm" onClick={handleReset}>
-                  <RotateCcw className="mr-1 h-3.5 w-3.5" />
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleReset}
+                  className="font-mono text-[10px] font-semibold tracking-wider uppercase"
+                >
+                  <RotateCcw className="mr-1 h-3 w-3" />
                   Start Over
                 </Button>
               </div>
@@ -155,10 +170,15 @@ export default function GeneratePage() {
               <CardContent className="py-4 space-y-3">
                 <div className="flex items-center gap-2">
                   <AlertCircle className="h-5 w-5 text-destructive" />
-                  <p className="text-sm font-medium text-destructive">Generation failed</p>
+                  <p className="font-mono text-xs font-semibold text-destructive tracking-wide uppercase">Generation failed</p>
                 </div>
-                <p className="text-sm text-muted-foreground">{error}</p>
-                <Button variant="outline" size="sm" onClick={handleReset}>
+                <p className="font-mono text-xs text-muted-foreground">{error}</p>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleReset}
+                  className="font-mono text-[10px] font-semibold tracking-wider uppercase"
+                >
                   Try Again
                 </Button>
               </CardContent>
@@ -167,8 +187,10 @@ export default function GeneratePage() {
 
           {!showReview && status === "idle" && (
             <Card>
-              <CardContent className="py-8 text-center text-muted-foreground">
-                <p className="text-sm">Complete the project specs to start generating.</p>
+              <CardContent className="py-8 text-center">
+                <p className="font-mono text-xs text-muted-foreground tracking-wide">
+                  Complete the project specs to start generating.
+                </p>
               </CardContent>
             </Card>
           )}

@@ -36,8 +36,8 @@ export function GeneratedFileCard({ file }: GeneratedFileCardProps) {
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
         <div className="flex items-center gap-2">
-          <CardTitle className="text-sm font-mono">{file.filename}</CardTitle>
-          <Badge variant="secondary" className="text-xs">
+          <CardTitle className="font-mono text-xs">{file.filename}</CardTitle>
+          <Badge variant="secondary" className="font-mono text-[10px] tracking-wide">
             {lineCount} lines
           </Badge>
         </div>
@@ -51,7 +51,7 @@ export function GeneratedFileCard({ file }: GeneratedFileCardProps) {
         </div>
       </CardHeader>
       <CardContent>
-        <pre className="whitespace-pre-wrap break-words rounded bg-muted p-3 font-mono text-xs leading-relaxed max-h-96 overflow-y-auto">
+        <pre className="whitespace-pre-wrap break-words bg-background border border-border p-3 font-mono text-[11px] leading-relaxed max-h-96 overflow-y-auto">
           {preview}
           {isTruncated && !expanded && "\n..."}
         </pre>
@@ -59,7 +59,7 @@ export function GeneratedFileCard({ file }: GeneratedFileCardProps) {
           <Button
             variant="ghost"
             size="sm"
-            className="mt-2 w-full text-xs"
+            className="mt-2 w-full font-mono text-[10px] tracking-wider uppercase"
             onClick={() => setExpanded(!expanded)}
           >
             {expanded ? (

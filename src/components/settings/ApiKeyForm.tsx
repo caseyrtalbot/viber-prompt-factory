@@ -50,14 +50,19 @@ export function ApiKeyForm() {
   return (
     <Card className="max-w-lg">
       <CardHeader>
-        <CardTitle>API Configuration</CardTitle>
-        <CardDescription>
+        <CardTitle className="text-base">API Configuration</CardTitle>
+        <CardDescription className="font-mono text-[11px] leading-relaxed">
           Your API key is stored in your browser&apos;s localStorage and sent directly to the Claude API. It never touches our servers.
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
-        <div className="space-y-2">
-          <Label htmlFor="api-key">Anthropic API Key</Label>
+        <div className="space-y-1.5">
+          <Label
+            htmlFor="api-key"
+            className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase"
+          >
+            Anthropic API Key
+          </Label>
           <div className="relative">
             <Input
               id="api-key"
@@ -65,7 +70,7 @@ export function ApiKeyForm() {
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
               placeholder="sk-ant-..."
-              className="pr-10"
+              className="pr-10 font-mono text-xs"
             />
             <Button
               type="button"
@@ -79,15 +84,20 @@ export function ApiKeyForm() {
           </div>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="model">Model</Label>
+        <div className="space-y-1.5">
+          <Label
+            htmlFor="model"
+            className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase"
+          >
+            Model
+          </Label>
           <Select value={model} onValueChange={setModel}>
-            <SelectTrigger id="model">
+            <SelectTrigger id="model" className="font-mono text-xs">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               {MODEL_OPTIONS.map((opt) => (
-                <SelectItem key={opt.value} value={opt.value}>
+                <SelectItem key={opt.value} value={opt.value} className="font-mono text-xs">
                   {opt.label}
                 </SelectItem>
               ))}
@@ -95,14 +105,23 @@ export function ApiKeyForm() {
           </Select>
         </div>
 
-        <div className="flex gap-2">
-          <Button onClick={testConnection} disabled={!apiKey || testStatus === "testing"}>
-            {testStatus === "testing" && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            {testStatus === "success" && <Check className="mr-2 h-4 w-4" />}
-            {testStatus === "error" && <X className="mr-2 h-4 w-4" />}
+        <div className="flex gap-3">
+          <Button
+            onClick={testConnection}
+            disabled={!apiKey || testStatus === "testing"}
+            className="font-mono text-[11px] font-bold tracking-wider uppercase"
+          >
+            {testStatus === "testing" && <Loader2 className="mr-2 h-3.5 w-3.5 animate-spin" />}
+            {testStatus === "success" && <Check className="mr-2 h-3.5 w-3.5" />}
+            {testStatus === "error" && <X className="mr-2 h-3.5 w-3.5" />}
             Test Connection
           </Button>
-          <Button variant="outline" onClick={() => { clearApiKey(); toast("API key cleared") }} disabled={!apiKey}>
+          <Button
+            variant="outline"
+            onClick={() => { clearApiKey(); toast("API key cleared") }}
+            disabled={!apiKey}
+            className="font-mono text-[11px] font-semibold tracking-wider uppercase"
+          >
             Clear Key
           </Button>
         </div>

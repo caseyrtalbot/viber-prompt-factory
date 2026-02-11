@@ -18,6 +18,7 @@ export function DownloadAllButton({ files, projectName }: DownloadAllButtonProps
     <Button
       variant="outline"
       size="sm"
+      className="font-mono text-[10px] font-semibold tracking-wider uppercase"
       onClick={async () => {
         try {
           await downloadAllAsZip(files, projectName)

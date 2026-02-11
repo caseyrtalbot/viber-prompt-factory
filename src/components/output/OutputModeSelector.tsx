@@ -15,17 +15,17 @@ export function OutputModeSelector({ mode, onModeChange }: OutputModeSelectorPro
       <Button
         variant={mode === "claude-md" ? "default" : "outline"}
         onClick={() => onModeChange("claude-md")}
-        className="flex-1"
+        className="flex-1 font-mono text-[11px] font-bold tracking-wider uppercase"
       >
-        <FileCode className="mr-2 h-4 w-4" />
+        <FileCode className="mr-2 h-3.5 w-3.5" />
         CLAUDE.md + Prompts
       </Button>
       <Button
         variant={mode === "full-scaffold" ? "default" : "outline"}
         onClick={() => onModeChange("full-scaffold")}
-        className="flex-1"
+        className="flex-1 font-mono text-[11px] font-bold tracking-wider uppercase"
       >
-        <FolderTree className="mr-2 h-4 w-4" />
+        <FolderTree className="mr-2 h-3.5 w-3.5" />
         Full Scaffold
       </Button>
     </div>
