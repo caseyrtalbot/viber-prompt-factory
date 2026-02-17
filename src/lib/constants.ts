@@ -167,14 +167,68 @@ export const QA_STEPS: QAStep[] = [
   },
 ]
 
-export const MODEL_OPTIONS = [
-  { value: "claude-sonnet-4-5-20250929", label: "Claude Sonnet 4.5 (Recommended)" },
-  { value: "claude-opus-4-6", label: "Claude Opus 4.6 (Most Capable)" },
-  { value: "claude-opus-4-5-20251101", label: "Claude Opus 4.5" },
-  { value: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5 (Fastest)" },
-]
+export type ProviderId = "anthropic" | "openai" | "gemini" | "grok"
 
-export const DEFAULT_MODEL = "claude-sonnet-4-5-20250929"
+export interface ProviderConfig {
+  id: ProviderId
+  name: string
+  keyPlaceholder: string
+  models: { value: string; label: string }[]
+  defaultModel: string
+}
+
+export const PROVIDERS: ProviderConfig[] = [
+  {
+    id: "anthropic",
+    name: "Anthropic",
+    keyPlaceholder: "sk-ant-...",
+    defaultModel: "claude-sonnet-4-5-20250929",
+    models: [
+      { value: "claude-sonnet-4-5-20250929", label: "Claude Sonnet 4.5 (Recommended)" },
+      { value: "claude-opus-4-6", label: "Claude Opus 4.6 (Most Capable)" },
+      { value: "claude-opus-4-5-20251101", label: "Claude Opus 4.5" },
+      { value: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5 (Fastest)" },
+    ],
+  },
+  {
+    id: "openai",
+    name: "OpenAI",
+    keyPlaceholder: "sk-...",
+    defaultModel: "gpt-5.2",
+    models: [
+      { value: "gpt-5.2", label: "GPT-5.2 (Recommended)" },
+      { value: "gpt-5-mini", label: "GPT-5 Mini (Fast)" },
+      { value: "o4-mini", label: "o4-mini (Reasoning)" },
+      { value: "o3", label: "o3 (Reasoning)" },
+      { value: "gpt-4o", label: "GPT-4o (Legacy)" },
+    ],
+  },
+  {
+    id: "gemini",
+    name: "Gemini",
+    keyPlaceholder: "AIza...",
+    defaultModel: "gemini-2.5-flash",
+    models: [
+      { value: "gemini-2.5-flash", label: "Gemini 2.5 Flash (Recommended)" },
+      { value: "gemini-2.5-pro", label: "Gemini 2.5 Pro (Most Capable)" },
+      { value: "gemini-3-pro-preview", label: "Gemini 3 Pro (Preview)" },
+      { value: "gemini-3-flash-preview", label: "Gemini 3 Flash (Preview)" },
+      { value: "gemini-2.0-flash", label: "Gemini 2.0 Flash (Legacy)" },
+    ],
+  },
+  {
+    id: "grok",
+    name: "Grok",
+    keyPlaceholder: "xai-...",
+    defaultModel: "grok-3-beta",
+    models: [
+      { value: "grok-4", label: "Grok 4 (Most Capable)" },
+      { value: "grok-3-beta", label: "Grok 3 (Recommended)" },
+      { value: "grok-3-fast-beta", label: "Grok 3 Fast (Low Latency)" },
+      { value: "grok-3-mini-beta", label: "Grok 3 Mini (Fastest)" },
+    ],
+  },
+]
 
 export const FILE_SEPARATOR = "---FILE:"
 export const FILE_SEPARATOR_END = "---"

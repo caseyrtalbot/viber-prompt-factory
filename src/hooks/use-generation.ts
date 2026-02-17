@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef } from "react"
 import type { ProjectSpecs, GeneratedFile, GenerationState } from "@/lib/types"
 import type { OutputMode } from "@/lib/types"
+import type { ProviderId } from "@/lib/constants"
 import { FILE_SEPARATOR } from "@/lib/constants"
 
 const initialState: GenerationState = {
@@ -22,6 +23,7 @@ export function useGeneration() {
     outputMode: OutputMode,
     apiKey: string,
     model: string,
+    provider: ProviderId = "anthropic",
   ) => {
     abortRef.current?.abort()
     const controller = new AbortController()
@@ -37,7 +39,7 @@ export function useGeneration() {
       const res = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ specs, apiKey, model }),
+        body: JSON.stringify({ specs, apiKey, model, provider }),
         signal: controller.signal,
       })
 

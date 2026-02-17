@@ -30,7 +30,7 @@ export default function Home() {
             </Link>
           </Button>
           <p className="font-mono text-[11px] text-muted-foreground">
-            Requires an <Link href="/settings" className="text-primary hover:underline">Anthropic API key</Link>
+            Requires an <Link href="/settings" className="text-primary hover:underline">API key</Link>
           </p>
         </div>
       </div>

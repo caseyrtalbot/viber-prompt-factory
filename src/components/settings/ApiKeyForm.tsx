@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { useApiKey } from "@/hooks/use-api-key"
-import { MODEL_OPTIONS } from "@/lib/constants"
+import { PROVIDERS, type ProviderId } from "@/lib/constants"
+import { ProviderIcon } from "@/components/icons/ProviderIcons"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,11 +11,14 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Eye, EyeOff, Check, X, Loader2 } from "lucide-react"
 import { toast } from "sonner"
+import { cn } from "@/lib/utils"
 
 export function ApiKeyForm() {
-  const { apiKey, setApiKey, model, setModel, clearApiKey, isLoaded } = useApiKey()
+  const { provider, setProvider, apiKey, setApiKey, model, setModel, clearApiKey, isLoaded } = useApiKey()
   const [showKey, setShowKey] = useState(false)
   const [testStatus, setTestStatus] = useState<"idle" | "testing" | "success" | "error">("idle")
+
+  const providerConfig = PROVIDERS.find((p) => p.id === provider) || PROVIDERS[0]
 
   const testConnection = async () => {
     if (!apiKey) return
@@ -28,6 +32,7 @@ export function ApiKeyForm() {
           freeText: "A simple test project",
           apiKey,
           model,
+          provider,
         }),
       })
 
@@ -42,6 +47,7 @@ export function ApiKeyForm() {
     } catch (err) {
       setTestStatus("error")
       toast.error(err instanceof Error ? err.message : "Connection failed")
+      setTimeout(() => setTestStatus("idle"), 3000)
     }
   }
 
@@ -52,16 +58,42 @@ export function ApiKeyForm() {
       <CardHeader>
         <CardTitle className="text-base">API Configuration</CardTitle>
         <CardDescription className="font-mono text-[11px] leading-relaxed">
-          Your API key is stored in your browser&apos;s localStorage and sent directly to the Claude API. It never touches our servers.
+          Your API key is stored in your browser&apos;s localStorage and sent directly to the provider&apos;s API. It never touches our servers.
         </CardDescription>
       </CardHeader>
-      <CardContent className="space-y-4">
+      <CardContent className="space-y-5">
+        {/* Provider Selector */}
+        <div className="space-y-1.5">
+          <Label className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase">
+            Provider
+          </Label>
+          <div className="grid grid-cols-4 gap-1.5">
+            {PROVIDERS.map((p) => (
+              <button
+                key={p.id}
+                onClick={() => { setProvider(p.id); setShowKey(false); setTestStatus("idle") }}
+                className={cn(
+                  "flex flex-col items-center gap-1.5 rounded-md border px-2 py-2.5 transition-all",
+                  "font-mono text-[10px] font-medium tracking-wide",
+                  provider === p.id
+                    ? "border-primary bg-primary/5 text-foreground"
+                    : "border-border/50 text-muted-foreground hover:border-border hover:text-foreground/80"
+                )}
+              >
+                <ProviderIcon provider={p.id} className="size-5" />
+                <span>{p.name}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+
+        {/* API Key Input */}
         <div className="space-y-1.5">
           <Label
             htmlFor="api-key"
             className="font-mono text-[10px] font-bold tracking-wider text-muted-foreground uppercase"
           >
-            Anthropic API Key
+            {providerConfig.name} API Key
           </Label>
           <div className="relative">
             <Input
@@ -69,7 +101,7 @@ export function ApiKeyForm() {
               type={showKey ? "text" : "password"}
               value={apiKey}
               onChange={(e) => setApiKey(e.target.value)}
-              placeholder="sk-ant-..."
+              placeholder={providerConfig.keyPlaceholder}
               className="pr-10 font-mono text-xs"
             />
             <Button
@@ -84,6 +116,7 @@ export function ApiKeyForm() {
           </div>
         </div>
 
+        {/* Model Selector */}
         <div className="space-y-1.5">
           <Label
             htmlFor="model"
@@ -96,7 +129,7 @@ export function ApiKeyForm() {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              {MODEL_OPTIONS.map((opt) => (
+              {providerConfig.models.map((opt) => (
                 <SelectItem key={opt.value} value={opt.value} className="font-mono text-xs">
                   {opt.label}
                 </SelectItem>
@@ -105,6 +138,7 @@ export function ApiKeyForm() {
           </Select>
         </div>
 
+        {/* Actions */}
         <div className="flex gap-3">
           <Button
             onClick={testConnection}

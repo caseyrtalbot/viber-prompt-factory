@@ -2,12 +2,13 @@
 
 import { useState, useCallback } from "react"
 import type { ProjectSpecs } from "@/lib/types"
+import type { ProviderId } from "@/lib/constants"
 
 export function useExtractSpecs() {
   const [isExtracting, setIsExtracting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const extractSpecs = useCallback(async (freeText: string, apiKey: string, model: string): Promise<ProjectSpecs | null> => {
+  const extractSpecs = useCallback(async (freeText: string, apiKey: string, model: string, provider: ProviderId = "anthropic"): Promise<ProjectSpecs | null> => {
     setIsExtracting(true)
     setError(null)
 
@@ -15,7 +16,7 @@ export function useExtractSpecs() {
       const res = await fetch("/api/extract-specs", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ freeText, apiKey, model }),
+        body: JSON.stringify({ freeText, apiKey, model, provider }),
       })
 
       if (!res.ok) {
