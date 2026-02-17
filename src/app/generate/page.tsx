@@ -23,12 +23,12 @@ export default function GeneratePage() {
   const [outputMode, setOutputMode] = useState<OutputMode>("claude-md")
   const [showReview, setShowReview] = useState(false)
   const { specs } = useProjectSpecs()
-  const { apiKey, model, isLoaded } = useApiKey()
+  const { apiKey, model, provider, isLoaded } = useApiKey()
   const { status, files, streamingContent, error, generate, abort, reset } = useGeneration()
 
   const handleGenerate = useCallback(() => {
-    generate(specs, outputMode, apiKey, model)
-  }, [generate, specs, outputMode, apiKey, model])
+    generate(specs, outputMode, apiKey, model, provider)
+  }, [generate, specs, outputMode, apiKey, model, provider])
 
   // Cmd+Enter shortcut
   useEffect(() => {
